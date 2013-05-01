@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/reset.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,800italic,300,400,800' rel='stylesheet' type='text/css'>    
+
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h1>Haskell</h1>
+
+<h2>Correct Code that Actually Runs (at the Cost of your Sanity)</h2>
+
+<blockquote>
+<p>Mike Verdone</p>
+</blockquote>
+</div>
+      <div class='step' >
+    <pre><code class='prettyprint haskell'>    main = print "Hello, world!"
+</code></pre></div>
+      <div class='step' >
+    <pre><code class='prettyprint haskell'>    qsort :: Ord a => [a] -> [a]
+    qsort [] = []
+    qsort (x:xs) =
+      let pivot = x
+          left  = [v | v <- xs, v <= pivot]
+          right = [v | v <- xs, v > pivot]
+      in (qsort left) ++ [pivot] ++ (qsort right)
+</code></pre></div>
+      <div class='step'  data-x='1000'>
+    
+<h2>What makes Haskell different?</h2>
+
+<p>Basically everything.</p>
+
+<ul>
+<li>strictly lazy</li>
+<li>purely functional</li>
+<li>strongly typed</li>
+</ul>
+</div>
+      <div class='step'  data-x='2000'>
+    
+<h2>lazy</h2>
+
+<ul>
+<li>Haskell doesn&#39;t evaluate something if can find a way to avoid it</li>
+</ul>
+<pre><code class='prettyprint haskell'>    -- in this example, 'a' is never computed
+    let a = 5 + 5
+        b = 8 + 8
+        c = b + 9
+     in print c
+</code></pre></div>
+      <div class='step'  data-x='2000' data-y='100'>
+    
+<ul>
+<li>This is totally fine:</li>
+</ul>
+<pre><code class='prettyprint haskell'>    -- an infinite list counting up from 1.
+    let a = [1..]
+
+    -- the first 100 elements from the infinite list.
+    let b = take 100 [1..]
+</code></pre></div>
+      <div class='step'  data-x='2000' data-y='200'>
+    
+<ul>
+<li>Even this is cool:</li>
+</ul>
+<pre><code class='prettyprint haskell'>    -- the length of the infinite list
+    let c = length [1..]
+</code></pre>
+<ul>
+<li>This, however, causes your program to lock up:</li>
+</ul>
+<pre><code class='prettyprint haskell'>    -- print the length of the infinite list
+    print (length [1..])
+</code></pre></div>
+      <div class='step'  data-x='3000' data-y='0'>
+    
+<h2>pure functional</h2>
+
+<ul>
+<li>no &quot;variables&quot;</li>
+<li>no mutable data structures</li>
+<li>&quot;no&quot; side effects</li>
+<li>this means &quot;hello world&quot; is impossible</li>
+</ul>
+</div>
+      <div class='step'  data-x='4000' data-y='0'>
+    
+<h2>Purely Static Strong Types</h2>
+<pre><code class='prettyprint haskell'>    -- All methods have type signatures that look
+    -- like this:
+    addNumbers :: Int -> Int -> Int
+    addNumbers a b = a + b
+
+    -- You can leave them out and the compiler will
+    -- try and derive them.
+    subtractNumbers a b = a - b
+</code></pre></div>
+      <div class='step'  data-x='4000' data-y='100'>
+    <pre><code class='prettyprint haskell'>    -- You can use classes to make functions 
+    -- over abstract types.
+    multiply :: Num a => a -> a -> a
+    multiply a b = a * b
+</code></pre></div>
+      <div class='step'  data-x='4000' data-y='200'>
+    
+<h2>Everything is cool as long as the type can be infered at compile time, BUT:</h2>
+
+<ul>
+<li>There is no <code class='inline prettyprint'>cast</code> operation</li>
+<li><em>None</em></li>
+<li><em>Zero</em></li>
+<li><em>Zip</em></li>
+<li><em>Nada</em></li>
+</ul>
+</div>
+      <div class='step'  data-x='5000' data-y='0'>
+    
+<h2>At this point you&#39;re asking: why would I ever use this?</h2>
+
+<ul>
+<li>challenge</li>
+<li>many classes of bugs are now <em>impossible to write</em></li>
+</ul>
+</div>
+      <div class='step'  data-x='6000' data-y='0'>
+    
+<h2>A <em>lot</em> of open source libraries</h2>
+
+<ul>
+<li>4911 packages in <em>hackage</em></li>
+<li>web frameworks, graphics, sound, robotics...</li>
+</ul>
+<pre><code class='prettyprint bash'>    $ cabal install *anything*
+</code></pre></div>
+      <div class='step'  data-x='6000' data-y='200'>
+    
+<h2>Good integration with C</h2>
+<pre><code class='prettyprint haskell'>        initCurses = do
+          void {# call initscr #}
+          void {# call cbreak #}
+          void $ {# call mousemask #} allEvents nullPtr
+          hasColor <- {# call has_colors #}
+          when (hasColor == 1) $ do
+                   void {# call start_color #}
+                   void {# call use_default_colors #}
+          stdscr <- peek c_stdscr
+          void $ {# call keypad #} (Window stdscr) 1
+          void $ {# call meta #} (Window stdscr) 1
+          {# call wtimeout #} (Window stdscr) (- 1)
+</code></pre></div>
+      <div class='step' >
+    
+<h2>It&#39;s actually fast</h2>
+
+<p><img src="images/prog-lang-speed.png" alt="Programming language speed"></p>
+</div>
+      <div class='step' >
+    
+<h2>Resources for learning this thing</h2>
+
+<ul>
+<li>All the books are terrible</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Most Haskell books go like this:</h2>
+
+<ul>
+<li>Introduction</li>
+<li>How to run the interpreter</li>
+<li>How to write simple functions</li>
+<li>Recursion</li>
+<li>What is a Monad?! (10 chapters)</li>
+<li>High order <em>endomorphic functors</em> and the Applicative typeclass</li>
+<li>Lens composition of <em>algebraic data types</em></li>
+<li>...</li>
+<li>...</li>
+<li><strong>How to read a file</strong></li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>&quot;Learn You A Haskell For Great Good!&quot; is kinda annoying</h2>
+
+<p><img src="images/learn-you.png" alt="Learn You A Haskell home page"></p>
+</div>
+      <div class='step' >
+    
+<h2>Real World Haskell is pretty good</h2>
+
+<p><img src="images/real-world-haskell.png" alt="Real World Haskell"></p>
+</div>
+      <div class='step' >
+    
+<h2>My advice</h2>
+
+<ul>
+<li><strong>learn by doing</strong></li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>An example: IO</h2>
+
+<ul>
+<li>Look in the library reference, you find <code class='inline prettyprint'>print</code> and <code class='inline prettyprint'>getLine</code>.</li>
+<li>you write this program and it fails:</li>
+</ul>
+<pre><code class='prettyprint haskell'>    let umm = print "What's your first name?"
+        firstName = getLine
+        uhh = print "What's your last name?"
+        lastName = getLine
+    in print ("Hello " ++ firstName ++ " " ++ lastName)
+</code></pre></div>
+      <div class='step' >
+    
+<h2>It fails like this</h2>
+<pre><code class='prettyprint python'>bad.hs:6:30:
+    Couldn't match expected type `[Char]' 
+      with actual type `IO String'
+    In the first argument of `(++)', namely `firstName'
+    In the second argument of `(++)', namely
+      `firstName ++ " " ++ lastName'
+    In the first argument of `print', namely
+      `("Hello " ++ firstName ++ " " ++ lastName)'
+</code></pre></div>
+      <div class='step' >
+    
+<h2>IO Jail</h2>
+
+<ul>
+<li>All of the IO functions are of a type like <code class='inline prettyprint'>a -> IO b</code></li>
+<li>The <code class='inline prettyprint'>b</code> is the output but it&#39;s locked inside the IO jail</li>
+<li>This &quot;jail&quot; is called a Monad</li>
+<li>What&#39;s a Monad??</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h1>Do not ask what a Monad is</h1>
+</div>
+      <div class='step' >
+    
+<h2>But why?</h2>
+
+<ul>
+<li>understanding a Monad is really annoying</li>
+<li>understanding a Monad is unnecessary to use it</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Let&#39;s build a working model</h2>
+
+<ul>
+<li>IO is a side effect</li>
+<li>But side effects are not allowed</li>
+<li>Because they are bad they are put in IO jail and can&#39;t come out</li>
+<li>All IO operations have to be done in IO jail</li>
+<li>(There are other types of jails (monads) but we don&#39;t care)</li>
+</ul>
+</div>
+      <div class='step' >
+    <pre><code class='prettyprint haskell'>    main = do
+      print "What's your first name?"
+      firstName <- getLine
+      print "What's your last name?"
+      lastName <- getLine
+      print ("Hello " ++ firstName ++ " " ++ lastName)
+</code></pre>
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
