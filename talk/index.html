@@ -158,6 +158,18 @@
 </code></pre></div>
       <div class='step'  data-x='6000' data-y='200'>
     
+<h2>Some of these are worth knowing:</h2>
+
+<ul>
+<li><code class='inline prettyprint'>text</code> -- fast text processing</li>
+<li><code class='inline prettyprint'>containers</code> -- maps, sets, trees, sequences</li>
+<li><code class='inline prettyprint'>unix</code> -- all the POSIX goodness</li>
+<li><code class='inline prettyprint'>array</code> -- immutable arrays (lookup tables)</li>
+<li><code class='inline prettyprint'>bytestring</code> -- strings of bytes</li>
+</ul>
+</div>
+      <div class='step'  data-x='6000' data-y='200'>
+    
 <h2>Good integration with C</h2>
 <pre><code class='prettyprint haskell'>        initCurses = do
           void {# call initscr #}
@@ -172,21 +184,21 @@
           void $ {# call meta #} (Window stdscr) 1
           {# call wtimeout #} (Window stdscr) (- 1)
 </code></pre></div>
-      <div class='step' >
+      <div class='step'  data-x='6000' data-y='400'>
     
 <h2>It&#39;s actually fast</h2>
 
 <p><img src="images/prog-lang-speed.png" alt="Programming language speed"></p>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='7000' data-y='0'>
     
 <h2>Resources for learning this thing</h2>
 
 <ul>
-<li>All the books are terrible</li>
+<li>Most of the books are terrible</li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='7000' data-y='200'>
     
 <h2>Most Haskell books go like this:</h2>
 
@@ -203,19 +215,19 @@
 <li><strong>How to read a file</strong></li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='7000' data-y='400'>
     
 <h2>&quot;Learn You A Haskell For Great Good!&quot; is kinda annoying</h2>
 
 <p><img src="images/learn-you.png" alt="Learn You A Haskell home page"></p>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='7000' data-y='600'>
     
 <h2>Real World Haskell is pretty good</h2>
 
 <p><img src="images/real-world-haskell.png" alt="Real World Haskell"></p>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='8000' data-y='0'>
     
 <h2>My advice</h2>
 
@@ -223,7 +235,7 @@
 <li><strong>learn by doing</strong></li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='9000' data-y='0'>
     
 <h2>An example: IO</h2>
 
@@ -237,7 +249,7 @@
         lastName = getLine
     in print ("Hello " ++ firstName ++ " " ++ lastName)
 </code></pre></div>
-      <div class='step' >
+      <div class='step'  data-x='9000' data-y='200'>
     
 <h2>It fails like this</h2>
 <pre><code class='prettyprint python'>bad.hs:6:30:
@@ -249,22 +261,22 @@
     In the first argument of `print', namely
       `("Hello " ++ firstName ++ " " ++ lastName)'
 </code></pre></div>
-      <div class='step' >
+      <div class='step'  data-x='9000' data-y='400'>
     
-<h2>IO Jail</h2>
+<h2>Input Output</h2>
 
 <ul>
-<li>All of the IO functions are of a type like <code class='inline prettyprint'>a -> IO b</code></li>
-<li>The <code class='inline prettyprint'>b</code> is the output but it&#39;s locked inside the IO jail</li>
-<li>This &quot;jail&quot; is called a Monad</li>
+<li>All of the IO functions produce values of a type like <code class='inline prettyprint'>IO b</code></li>
+<li>The <code class='inline prettyprint'>b</code> is the output but it&#39;s locked inside the IO thing</li>
+<li>This &quot;thing&quot; is called a Monad</li>
 <li>What&#39;s a Monad??</li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='9000' data-y='400' data-scale='16'>
     
 <h1>Do not ask what a Monad is</h1>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='10000' data-y='0'>
     
 <h2>But why?</h2>
 
@@ -273,7 +285,7 @@
 <li>understanding a Monad is unnecessary to use it</li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='10000' data-y='200'>
     
 <h2>Let&#39;s build a working model</h2>
 
@@ -283,16 +295,38 @@
 <li>Because they are bad they are put in IO jail and can&#39;t come out</li>
 <li>All IO operations have to be done in IO jail</li>
 <li>(There are other types of jails (monads) but we don&#39;t care)</li>
+<li>The <code class='inline prettyprint'>do</code> statement is key for doing things in the IO jail</li>
 </ul>
 </div>
-      <div class='step' >
+      <div class='step'  data-x='10000' data-y='400'>
     <pre><code class='prettyprint haskell'>    main = do
       print "What's your first name?"
       firstName <- getLine
       print "What's your last name?"
       lastName <- getLine
       print ("Hello " ++ firstName ++ " " ++ lastName)
-</code></pre>
+</code></pre></div>
+      <div class='step'  data-x='10000' data-y='600'>
+    
+<h2>Moving ahead with Monads</h2>
+
+<ul>
+<li>get used to working in IO jail (monad)</li>
+<li>learn about the other jails in Haskell</li>
+<li>then, create your own jails</li>
+</ul>
+</div>
+      <div class='step'  data-x='11000' data-y='0'>
+    
+<h2>In short learn Haskell</h2>
+
+<ul>
+<li>for the challenge</li>
+<li>to try something entirely new</li>
+<li>to write code that doesn&#39;t break (as much)</li>
+<li>to write <em>real applications</em></li>
+</ul>
+
       </div>
     <script src="js/impress.js"></script>
     <script>impress().init();</script>
